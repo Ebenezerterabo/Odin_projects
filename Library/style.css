@@ -4,12 +4,16 @@
     box-sizing: border-box;
 }
 
+:root {
+    --btn-color: rgb(0, 123, 255)
+}
+
 #new-book-btn{
     position: fixed;
     bottom: 20px;
     right: 20px;
     padding: 10px 20px;
-    background-color: #007BFF;
+    background-color: var(--btn-color);
     color: white;
     border: none;
     border-radius: 5px;
@@ -18,7 +22,7 @@
 
 #add-book-btn, #cancel-btn {
     padding: 10px 20px;
-    background-color: #28a745;
+    background-color: var(--btn-color);
     color: white;
     border: none;
     border-radius: 5px;
@@ -35,16 +39,8 @@ h1 {
 }
 
 #book-form {
-    display: none;
     border: 1px solid #ccc;
     padding: 30px;
-}
-
-#form-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
 }
 
 .form-content {
@@ -57,4 +53,29 @@ h1 {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+
+.book-card {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid gray;
+    background-color: aliceblue;
+    border-radius: 10px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.remove-btn {
+    padding: 10px 20px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
