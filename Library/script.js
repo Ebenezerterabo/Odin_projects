@@ -5,6 +5,7 @@ const form = document.getElementById('book-form-content');
 const newBookBtn = document.getElementById('new-book-btn');
 const addBookBtn = document.getElementById('add-book-btn');
 const libraryContainer = document.getElementById('book-container');
+const cancelBtn = document.getElementById('cancel-btn');
 
 
 
@@ -81,4 +82,9 @@ function removeBook(id) {
         displayBooks();
     }
 }
+
+// Cancel button trigger
+cancelBtn.addEventListener('click', () => {
+    formDialog.close()
+});
 
