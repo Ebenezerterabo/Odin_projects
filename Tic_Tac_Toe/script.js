@@ -2,9 +2,9 @@
 const GameBoard = (() => {
     let board = ["", "", "", "", "", "", "", "", ""];
 
-    // Get values from the board
+    // Get values from the board.
     const getBoard = () => board;
-    // Place a mark on the board (x or o) at a specific index
+    // Place a mark on the board (x or o) at a specific index.
     const placeMark = (index, mark) => {
         if (board[index] === "") {
             board[index] = mark;
@@ -12,15 +12,15 @@ const GameBoard = (() => {
         }
         return false;
     };
-    // Clear the board
+    // Clear the board.
     const resetBoard = () => {
         board = ["", "", "", "", "", "", "", "", ""];
     };
-    // Check if the board is full
+    // Check if the board is full.
     const isFull = () => {
         return board.every(cell => cell !== "");
     };
-    // Check if a player has won
+    // Check if a player has won.
     const winningLines = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
         [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
@@ -28,23 +28,23 @@ const GameBoard = (() => {
     ];
     
     const checkWin = () => {
-        // Check each winning line to see if all three cells are the same and not empty
+        // Check each winning line to see if all three cells are the same and not empty.
         for (const line of winningLines) {
             const [a, b, c] = line;
 
-            // Get the marks at those three positions
+            // Get the marks at those three positions.
             const markA = board[a];
             const markB = board[b];
             const markC = board[c];
             
-            // If all three marks are the same and not empty, we have a winner
+            // If all three marks are the same and not empty, we have a winner.
             if (markA && markA === markB && markA === markC) {
                 return markA; // "X" or "O"
             }
         }
         return null;
     };
-    // Return the public methods
+    // Return the public methods.
     return { getBoard, placeMark, resetBoard, isFull, checkWin };
 })();
 
@@ -56,50 +56,52 @@ const GameController = (() => {
     let player1, player2, currentPlayer, gameOver;
 
     const startGame = (name1, name2) => {
-    // Create two players with their names and marks
+    // Create two players with their names and marks.
     player1 = createPlayer(name1, "X");
     player2 = createPlayer(name2, "O");
-    // Player 1 goes first
+    // Player 1 goes first.
     currentPlayer = player1;
-    // Reset the game over flag
+    // Reset the game over flag.
     gameOver = false;
-    // Reset the game board
+    // Reset the game board.
     GameBoard.resetBoard();
     };
 
-    // Switch the current player after a move
+    // Switch the current player after a move.
     // The index is the cell the player clicked on.
     const switchPlayer = (index) => {
+        // console.log(currentPlayer);
+        // console.log(gameOver);
         if (gameOver) {
             return { type: 'gameOver', message: 'The game is over. Please start a new game.' };
         }
 
-        // Place the current  players mark
+        // Place the current  players mark.
         const placed = GameBoard.placeMark(index, currentPlayer.mark);
-        // if the cell is already occupied tell the caller
+        // if the cell is already occupied tell the caller.
         if (!placed) {
             return { type: 'invalidMove', message: 'This cell is already occupied. Please choose another cell.' };
         }
         
-        // Check for a winner after the move
+        // Check for a winner after the move.
         const winnerMark = GameBoard.checkWin();
 
         if (winnerMark) {
-            // Find which player won based on the mark
+            // Find which player won based on the mark.
             const winningPlayer = winnerMark === player1.mark ? player1 : player2;
-            // Set the game over flag
+            // Set the game over flag.
             gameOver = true;
 
             return { type: 'win', message: `${winningPlayer.name} wins!` };
         }
 
         if (GameBoard.isFull()) {
-            // Set the game over flag
+            // Set the game over flag.
             gameOver = true;
             return { type: 'draw', message: "It's a draw!" };
         }
 
-        // Switch to the other player
+        // Switch to the other player.
         currentPlayer = currentPlayer === player1 ? player2 : player1;
 
         return { type: 'continue', message: `${currentPlayer.name}'s turn (${currentPlayer.mark})` };
@@ -111,6 +113,40 @@ const GameController = (() => {
     return { startGame, switchPlayer, getCurrentPlayer, isGameOver };
 
 })();
+
+
+const DisplayController = (() => {
+    const boardEl = document.querySelector(".board");  // Container for the game board
+    const statusEl = document.querySelector(".status");  // message area
+    const resetBtn = document.querySelector(".reset");  // Reset button
+
+    const renderBoard = () => {
+        // Get the current board array.
+        const board = GameBoard.getBoard();
+        // Clear out any old squares.
+        boardEl.innerHTML = "";
+        // Create a new square for each cell in the board.
+        board.forEach((cell, index) => {
+            // Create the square element.
+            const squareEl = document.createElement("div");
+            squareEl.classList.add("cell");
+            // Show the mark in the square.
+            squareEl.textContent = cell;
+
+            // If the cell has been taken
+            if (cell !== "") {
+                // Add a class to indicate it's taken.
+                squareEl.classList.add("taken");
+            } else {
+                // If the cell is empty, add a click event listener.
+                squareEl.addEventListener("click", () => handleCellClick(index));
+            }
+
+            // Add the square to the board container.
+            boardEl.appendChild(squareEl);
+        })
+    }
+})
 
 // const DisplayController = (() => {
 //     const boardEl = document.querySelector(".board");
@@ -143,7 +179,7 @@ const GameController = (() => {
 //     };
 // })();
 
-// GameController.startGame("Abigail", "Ebenezer");
-// console.log(GameController.getCurrentPlayer());
-// console.log(GameController.isGameOver());
+GameController.startGame("Abigail", "Ebenezer");
+console.log(GameController.getCurrentPlayer());
+console.log(GameController.isGameOver());
 
