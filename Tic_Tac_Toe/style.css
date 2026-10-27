@@ -3,3 +3,41 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 120px);
+    grid-template-rows: repeat(3, 120px);
+    gap: 5px;
+    margin: 20px auto;
+}
+
+.cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: bold;
+    background-color: #c02121;
+    border: 1px solid #c06c6c;
+    cursor: pointer;
+}
+
+.reset-btn{
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: #069c27;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
