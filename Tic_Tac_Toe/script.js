@@ -40,8 +40,8 @@ const GameBoard = (() => {
             // If all three marks are the same and not empty, we have a winner.
             if (markA && markA === markB && markA === markC) {
                 return markA; // "X" or "O"
-            }
-        }
+            };
+        };
         return null;
     };
     // Return the public methods.
@@ -74,14 +74,14 @@ const GameController = (() => {
         // console.log(gameOver);
         if (gameOver) {
             return { type: 'gameOver', message: 'The game is over. Please start a new game.' };
-        }
+        };
 
         // Place the current  players mark.
         const placed = GameBoard.placeMark(index, currentPlayer.mark);
         // if the cell is already occupied tell the caller.
         if (!placed) {
             return { type: 'invalidMove', message: 'This cell is already occupied. Please choose another cell.' };
-        }
+        };
         
         // Check for a winner after the move.
         const winnerMark = GameBoard.checkWin();
@@ -93,13 +93,15 @@ const GameController = (() => {
             gameOver = true;
 
             return { type: 'win', message: `${winningPlayer.name} wins!` };
-        }
+        };
 
         if (GameBoard.isFull()) {
             // Set the game over flag.
             gameOver = true;
             return { type: 'draw', message: "It's a draw!" };
-        }
+        };
+
+
 
         // Switch to the other player.
         currentPlayer = currentPlayer === player1 ? player2 : player1;
@@ -119,22 +121,24 @@ const DisplayController = (() => {
     const boardEl = document.querySelector(".board");  // Container for the game board
     const statusEl = document.querySelector(".status");  // message area
     const resetBtn = document.querySelector(".reset");  // Reset button
-
+    
+    console.log("boardEl", boardEl);
     const renderBoard = () => {
+        console.log("Rendering board...", GameBoard.getBoard());
         // Get the current board array.
         const board = GameBoard.getBoard();
         // Clear out any old squares.
         boardEl.innerHTML = "";
         // Create a new square for each cell in the board.
-        board.forEach((cell, index) => {
+        board.forEach((mark, index) => {
             // Create the square element.
             const squareEl = document.createElement("div");
             squareEl.classList.add("cell");
             // Show the mark in the square.
-            squareEl.textContent = cell;
+            squareEl.textContent = mark;
 
             // If the cell has been taken
-            if (cell !== "") {
+            if (mark !== "") {
                 // Add a class to indicate it's taken.
                 squareEl.classList.add("taken");
             } else {
@@ -144,42 +148,67 @@ const DisplayController = (() => {
 
             // Add the square to the board container.
             boardEl.appendChild(squareEl);
-        })
-    }
-})
+        });
+    };
 
-// const DisplayController = (() => {
-//     const boardEl = document.querySelector(".board");
-//     const statusEl = document.querySelector(".status");
-//     const resetBtn = document.querySelector(".reset");
+    const handleCellClick = (index) => {
+        // Call the GameController to handle the move.
+        const result = GameController.switchPlayer(index);
+        // Re-render the board after the move.
+        renderBoard();
 
-//     const renderBoard = () => {
-//         const board = GameBoard.getBoard();
-//         boardEl.innerHTML = "";
-//         board.forEach((cell, index) => {
-//             const cellEl = document.createElement("div");
-//             cellEl.classList.add("cell");
-//             cellEl.textContent = cell;
-//             cellEl.addEventListener("click", () => handleCellClick(index));
-//             boardEl.appendChild(cellEl);
-//         });
-//     };
+        // Update the status message based on the result. (updateStatus function)
+        updateStatus(result);
+    };
 
-//     const handleCellClick = (index) => {
-//         const result = GameController.switchPlayer(index);
-//         renderBoard();
-        
-//         if (result == 'win') {
-//             statusEl.textContent = `${result} wins!`;
-//         } else if (result == 'draw') {
-//             statusEl.textContent = "It's a draw!";
-//         } else {
-//             statusEl.textContent = `${GameController.getCurrentPlayer().name}'s turn (${GameController.getCurrentPlayer().mark})`;
-//         }
-//     };
-// })();
+    const updateStatus = (result) => {
+        switch (result.type) {
+            case 'win':
+                statusEl.textContent = result.message;
+                break;
+            case 'draw':
+                statusEl.textContent = result.message;
+                break;
+            case 'gameOver':
+                statusEl.textContent = result.message;
+                break;
+            case 'invalidMove':
+                statusEl.textContent = result.message;
+                break;
+            case 'continue':
+                statusEl.textContent = result.message;
+                break;
+        };
+    };
 
-GameController.startGame("Abigail", "Ebenezer");
-console.log(GameController.getCurrentPlayer());
-console.log(GameController.isGameOver());
+    const resetGame = () => {
+        // Reset the game state in the GameController.
+        GameController.startGame(player1.name, player2.name);
+        // Re-render the board.
+        renderBoard();
+        // Update the status message to indicate the new game has started.
+        statusEl.textContent = `${GameController.getCurrentPlayer().name}'s turn (${GameController.getCurrentPlayer().mark})`;
+    };
+
+    resetBtn.addEventListener("click", resetGame);
+
+    const init = () => {
+        // Start a new game with default player names.
+        GameController.startGame("Player 1", "Player 2");
+    };
+
+    return { init, renderBoard, updateStatus };
+
+})();
+
+DisplayController.renderBoard();
+GameController.getCurrentPlayer();  // Initialize the current player
+DisplayController.updateStatus({ type: 'continue', message: `${GameController.getCurrentPlayer().name}'s turn (${GameController.getCurrentPlayer().mark})` });
+
+
+
+
+
+
+
 
