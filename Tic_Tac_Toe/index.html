@@ -7,16 +7,33 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="game-container">
-        <h1>Tic Tac Toe</h1>
-
-        <div class="board"></div>
-
-        <p class="status"></p>
-        
-        <button class="reset-btn">Reset Game</button>
+    <div class="header">
+        <img src="image.png" alt="tic tac toe" width="60">
+        <h1>Tic Tac Toe Game</h1>
     </div>
 
+    <div class="display-container">
+
+        <div class="player">
+            player 1: <span class="player1">X</span>
+            player 2: <span class="player2">O</span>
+        </div>
+        
+        <div class="game-container">
+            <h1>Tic Tac Toe</h1>
+            
+            <div class="board"></div>
+            
+            <p class="status"></p>
+            
+            <button class="reset-btn">Reset Game</button>
+        </div>
+        
+        <div class="currentplayer">
+            Current Player: <span class="current-player">X</span>
+        </div>
+    </div>
+        
     <script src="script.js"></script>
 </body>
 </html>
