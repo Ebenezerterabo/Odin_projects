@@ -190,21 +190,19 @@ const DisplayController = (() => {
         statusEl.textContent = `${GameController.getCurrentPlayer().name}'s turn (${GameController.getCurrentPlayer().mark})`;
     };
 
-    resetBtn.addEventListener("click", resetGame);
+    // resetBtn.addEventListener("click", resetGame);
 
     const init = () => {
         // Start a new game with default player names.
         GameController.startGame("Player 1", "Player 2");
     };
 
-    return { init, renderBoard, updateStatus };
+    return { init, renderBoard, updateStatus, resetGame };
 
 })();
 
+GameController.startGame("Player 1", "Player 2");
 DisplayController.renderBoard();
-GameController.getCurrentPlayer();  // Initialize the current player
-DisplayController.updateStatus({ type: 'continue', message: `${GameController.getCurrentPlayer().name}'s turn (${GameController.getCurrentPlayer().mark})` });
-
 
 
 
