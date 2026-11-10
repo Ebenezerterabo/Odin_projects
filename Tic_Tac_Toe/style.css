@@ -8,7 +8,7 @@
     display: flex;
     /* text-align: center; */
     /* margin: 20px 0; */
-    background-color: red;
+    background-color: #73d5f3;
     padding: 20px;
     gap: 20px;
     align-items: center;
@@ -48,8 +48,10 @@
     justify-content: center;
     font-size: 3rem;
     font-weight: bold;
-    background-color: #c02121;
-    border: 1px solid #c06c6c;
+    background-color: #e6eef0;
+    border-radius: 10px;
+    border: 5px solid #73d5f3;
+;
     cursor: pointer;
 }
 
