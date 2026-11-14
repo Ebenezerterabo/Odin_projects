@@ -8,29 +8,67 @@
 </head>
 <body>
     <div class="header">
-        <img src="image.png" alt="tic tac toe" width="60">
+        <img src="./images/image.png" alt="tic tac toe" width="60">
         <h1>Tic Tac Toe Game</h1>
     </div>
+
+    <dialog>
+        <form method="dialog" id="player-form">
+            <h2>Enter Player Names</h2>
+            <label for="player1">Player 1:</label>
+            <input type="text" id="player1" name="player1" required>
+            <br>
+            <label for="player2">Player 2:</label>
+            <input type="text" id="player2" name="player2" required>
+            <br>
+            <button type="submit">Start Game</button>
+        </form>
+    </dialog>
 
     <div class="display-container">
 
         <div class="player">
-            player 1: <span class="player1">X</span>
-            player 2: <span class="player2">O</span>
+            <div>
+                <img src="./images/user.png" alt="user1" width="30">
+                player 1: <span class="player1">X</span>
+            </div>
+            <div>
+                <img src="./images/user.png" alt="user2" width="30">
+                player 2: <span class="player2">O</span>
+            </div>
+
+            <hr>
+
+            <button class="reset-btn">
+                <img src="./images/reset.png" alt="" width="30">
+                Reset Game
+            </button>
+
+            <span class="status"></span>
         </div>
         
         <div class="game-container">
             <h1>Tic Tac Toe</h1>
             
             <div class="board"></div>
-            
-            <p class="status"></p>
-            
-            <button class="reset-btn">Reset Game</button>
         </div>
         
-        <div class="currentplayer">
-            Current Player: <span class="current-player">X</span>
+        <div class="current-player">
+            <div>
+                <img src="./images/current_user.png" alt="" width="30">
+                Current Player: <span class="current-player-tag">X</span>
+            </div>
+
+            <hr>
+            <h3>Score</h3>
+            <div>
+                <img src="./images/user.png" alt="user1" width="30">
+                player 1: <span class="player1-score">0</span>
+            </div>
+            <div>
+                <img src="./images/user.png" alt="user2" width="30">
+                player 2: <span class="player2-score">0</span>
+            </div>
         </div>
     </div>
         

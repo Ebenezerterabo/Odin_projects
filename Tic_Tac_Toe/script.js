@@ -120,11 +120,10 @@ const GameController = (() => {
 const DisplayController = (() => {
     const boardEl = document.querySelector(".board");  // Container for the game board
     const statusEl = document.querySelector(".status");  // message area
-    const resetBtn = document.querySelector(".reset");  // Reset button
+    const resetBtn = document.querySelector(".reset-btn");  // Reset button
+    const dialog = document.querySelector("#player-form");  // Dialog for player names
     
-    console.log("boardEl", boardEl);
     const renderBoard = () => {
-        console.log("Rendering board...", GameBoard.getBoard());
         // Get the current board array.
         const board = GameBoard.getBoard();
         // Clear out any old squares.
@@ -183,26 +182,30 @@ const DisplayController = (() => {
 
     const resetGame = () => {
         // Reset the game state in the GameController.
-        GameController.startGame(player1.name, player2.name);
+        // GameController.startGame(player1.name, player2.name);
+        GameController.startGame("Player 1", "Player 2");
         // Re-render the board.
         renderBoard();
         // Update the status message to indicate the new game has started.
         statusEl.textContent = `${GameController.getCurrentPlayer().name}'s turn (${GameController.getCurrentPlayer().mark})`;
     };
+    resetBtn.addEventListener("click", resetGame);
 
-    // resetBtn.addEventListener("click", resetGame);
-
+    
     const init = () => {
         // Start a new game with default player names.
-        GameController.startGame("Player 1", "Player 2");
+        resetGame();
     };
-
-    return { init, renderBoard, updateStatus, resetGame };
-
+    
+    // return { init, renderBoard, updateStatus, resetGame };
+    return { init }
+    
 })();
 
-GameController.startGame("Player 1", "Player 2");
-DisplayController.renderBoard();
+DisplayController.init();
+
+// GameController.startGame("Enoch", "Eben");
+// DisplayController.renderBoard();
 
 
 
